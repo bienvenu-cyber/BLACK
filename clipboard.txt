@@ -1,0 +1,23 @@
+from flask import Flask
+from telegram import Bot
+
+# Initialisation de l'application Flask
+app = Flask(__name__)
+
+# Configuration Telegram
+TELEGRAM_TOKEN = "7402831359:AAHwrtwwqOhxsP4iajcx9-zGXev_DGDMlPY"
+CHAT_ID = "1963161645"
+bot = Bot(token=TELEGRAM_TOKEN)
+
+# Route principale
+@app.route("/")
+def home():
+    # Envoi d'un message sur Telegram
+    try:
+        bot.send_message(chat_id=CHAT_ID, text="Déploiement réussi sur Render !")
+        return "Déploiement réussi sur Render ! Le message Telegram a été envoyé."
+    except Exception as e:
+        return f"Déploiement réussi sur Render, mais une erreur s'est produite : {e}"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
