@@ -1,36 +1,167 @@
-import subprocess
-import sys
-from flask import Flask
-from telegram import Bot
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
 
-# Fonction pour installer les dépendances si elles ne sont pas présentes
-def install_requirements():
-    required_packages = [
-        "Flask==2.3.2",
-        "python-telegram-bot==20.3"
-    ]
-    for package in required_packages:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+# Fonctions pour gérer les commandes
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Signal Bot service started!")
 
-# Installation des packages avant de lancer le serveur Flask
-install_requirements()
+def stop(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Signal Bot service stopped!")
 
-# Initialisation de l'application Flask
-app = Flask(__name__)
+def balance(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Your current trading account balance is $1000.")
 
-# Configuration Telegram
-TELEGRAM_TOKEN = "7402831359:AAHwrtwwqOhxsP4iajcx9-zGXev_DGDMlPY"
-CHAT_ID = "1963161645"
-bot = Bot(token=TELEGRAM_TOKEN)
+def settings(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Configure your Signal Bot using this command.")
 
-# Route principale
-@app.route("/")
-def home():
+def my_settings(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Your current settings are displayed here.")
+
+def amount(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the trade amount using this command.")
+
+def accuracy(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the minimum signal accuracy using this command.")
+
+def payout(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the minimum payout using this command.")
+
+def expiration(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the expiration time using this command.")
+
+def deposit(update: Update, context: CallbackContext) -> None:
     try:
-        bot.send_message(chat_id=CHAT_ID, text="Déploiement réussi sur Render avec installation automatique des dépendances !")
-        return "Déploiement réussi sur Render ! Le message Telegram a été envoyé."
-    except Exception as e:
-        return f"Déploiement réussi, mais une erreur s'est produite : {e}"
+        value = context.args[0]
+        update.message.reply_text(f"Deposit of ${value} made successfully!")
+    except IndexError:
+        update.message.reply_text("Please specify the deposit amount. Example: /deposit 500")
+
+def set_amount(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Trade amount set to ${value}.")
+    except IndexError:
+        update.message.reply_text("Please specify the trade amount. Example: /amount 100")
+
+def set_accuracy(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Minimum signal accuracy set to {value}%.")
+    except IndexError:
+        update.message.reply_text("Please specify the accuracy. Example: /accuracy 90")
+
+def set_payout(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Minimum payout set to {value}%.")
+    except IndexError:
+        update.message.reply_text("Please specify the payout. Example: /payout 75")
+
+def limit(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Balance limit set to ${value}.")
+    except IndexError:
+        update.message.reply_text("Please specify the balance limit. Example: /limit 1000")
+
+# Configuration du bot
+def main() -> None:
+    # Remplacez par votre token de bot
+    updater = Updater from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
+
+# Fonctions pour gérer les commandes
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Signal Bot service started!")
+
+def stop(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Signal Bot service stopped!")
+
+def balance(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Your current trading account balance is $1000.")
+
+def settings(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Configure your Signal Bot using this command.")
+
+def my_settings(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Your current settings are displayed here.")
+
+def amount(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the trade amount using this command.")
+
+def accuracy(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the minimum signal accuracy using this command.")
+
+def payout(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the minimum payout using this command.")
+
+def expiration(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Set the expiration time using this command.")
+
+def deposit(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Deposit of ${value} made successfully!")
+    except IndexError:
+        update.message.reply_text("Please specify the deposit amount. Example: /deposit 500")
+
+def set_amount(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Trade amount set to ${value}.")
+    except IndexError:
+        update.message.reply_text("Please specify the trade amount. Example: /amount 100")
+
+def set_accuracy(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Minimum signal accuracy set to {value}%.")
+    except IndexError:
+        update.message.reply_text("Please specify the accuracy. Example: /accuracy 90")
+
+def set_payout(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Minimum payout set to {value}%.")
+    except IndexError:
+        update.message.reply_text("Please specify the payout. Example: /payout 75")
+
+def limit(update: Update, context: CallbackContext) -> None:
+    try:
+        value = context.args[0]
+        update.message.reply_text(f"Balance limit set to ${value}.")
+    except IndexError:
+        update.message.reply_text("Please specify the balance limit. Example: /limit 1000")
+
+# Configuration du bot
+def main() -> None:
+    TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+updater = Updater(TOKEN)
+# Votre logique ici
+    # Dispatcher pour enregistrer les commandes
+    dispatcher = updater.dispatcher
+
+    # Ajouter les gestionnaires de commandes
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CommandHandler("stop", stop))
+    dispatcher.add_handler(CommandHandler("balance", balance))
+    dispatcher.add_handler(CommandHandler("settings", settings))
+    dispatcher.add_handler(CommandHandler("my_settings", my_settings))
+    dispatcher.add_handler(CommandHandler("amount", amount))
+    dispatcher.add_handler(CommandHandler("accuracy", accuracy))
+    dispatcher.add_handler(CommandHandler("payout", payout))
+    dispatcher.add_handler(CommandHandler("expiration", expiration))
+    dispatcher.add_handler(CommandHandler("deposit", deposit))
+    dispatcher.add_handler(CommandHandler("amount", set_amount))
+    dispatcher.add_handler(CommandHandler("accuracy", set_accuracy))
+    dispatcher.add_handler(CommandHandler("payout", set_payout))
+    dispatcher.add_handler(CommandHandler("limit", limit))
+
+    # Démarrer le bot
+    updater.start_polling()
+    updater.idle()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    main()
+
